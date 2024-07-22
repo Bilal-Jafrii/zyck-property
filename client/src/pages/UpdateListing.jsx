@@ -143,26 +143,49 @@ export default function CreateListing() {
       });
     }
   };
+  const formatNumberWithCommas = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   const handleNumberChange = (e) => {
     const { value } = e.target;
-    setFormData({ ...formData, regularPrice: value});
+    const numericValue = value.replace(/,/g, ''); // Remove commas for numeric operations
 
-    if (value) {
-      setNumberInWords(toWords(value));
+    if (numericValue && !isNaN(numericValue)) {
+      const formattedValue = formatNumberWithCommas(numericValue);
+      setFormData({ ...formData, regularPrice: formattedValue });
+
+      const numberValue = parseInt(numericValue, 10);
+      if (numberValue) {
+        setNumberInWords(toWords(numberValue));
+      } else {
+        setNumberInWords('');
+      }
     } else {
+      setFormData({ ...formData, regularPrice: '' });
       setNumberInWords('');
     }
   };
   const handleDiscountChange = (e) => {
     const { value } = e.target;
-    setFormData({ ...formData, discountPrice: value});
+    const numericValue = value.replace(/,/g, ''); // Remove commas for numeric operations
 
-    if (value) {
-      setDiscountInWords(toWords(value));
+    if (numericValue && !isNaN(numericValue)) {
+      const formattedValue = formatNumberWithCommas(numericValue);
+      setFormData({ ...formData, discountPrice: formattedValue });
+
+      const numberValue = parseInt(numericValue, 10);
+      if (numberValue) {
+        setDiscountInWords(toWords(numberValue));
+      } else {
+        setDiscountInWords('');
+      }
     } else {
+      setFormData({ ...formData, discountPrice: '' });
       setDiscountInWords('');
     }
   };
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -339,7 +362,7 @@ export default function CreateListing() {
                 )}
               </div>
               <input
-                type='number'
+                type='text'
                 id='regularPrice'
                 min='50'
                 max='10000000'
@@ -359,7 +382,7 @@ export default function CreateListing() {
                   )}
                 </div>
                 <input
-                  type='number'
+                  type='text'
                   id='discountPrice'
                   min='0'
                   max='10000000'
