@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toWords } from "number-to-words"
 import {
   getDownloadURL,
   getStorage,
@@ -24,12 +25,14 @@ export default function CreateListing() {
     type: 'rent',
     bedrooms: 1,
     bathrooms: 1,
-    regularPrice: 1000,
+    regularPrice: '',
     discountPrice: 0,
     offer: false,
     parking: false,
     furnished: false,
   });
+  const [numberInWords, setNumberInWords] = useState('');
+  const [discountInWords, setDiscountInWords] = useState('');
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
@@ -125,7 +128,28 @@ export default function CreateListing() {
       });
     }
   };
+  
 
+  const handleNumberChange = (e) => {
+    const { value } = e.target;
+    setFormData({ ...formData, regularPrice: value});
+
+    if (value) {
+      setNumberInWords(toWords(value));
+    } else {
+      setNumberInWords('');
+    }
+  };
+  const handleDiscountChange = (e) => {
+    const { value } = e.target;
+    setFormData({ ...formData, discountPrice: value});
+
+    if (value) {
+      setDiscountInWords(toWords(value));
+    } else {
+      setDiscountInWords('');
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -302,26 +326,37 @@ export default function CreateListing() {
               />
               <p>Baths</p>
             </div>
-            <div className='flex items-center gap-2'>
-              <input
-                type='number'
-                id='regularPrice'
-                min='50'
-                max='10000000000'
-                required
-                className='p-3 border border-gray-300 rounded-lg'
-                onChange={handleChange}
-                value={formData.regularPrice}
-              />
-              <div className='flex flex-col items-center'>
+            <div className='flex items-center gap-2 '>
+            <div className='flex flex-col items-center'>
                 <p >Regular price</p>
                 {formData.type === 'rent' && (
                   <span className='text-xs'>(Rs / month)</span>
                 )}
               </div>
+              <input
+                type='number'
+                id='regularPrice'
+                min='500'
+                max='10000000000'
+                required
+                className='p-3 border border-gray-300 rounded-lg'
+                onChange={handleNumberChange}
+                value={formData.regularPrice}
+              />
+              
+            
+             
+           <div className='px-4'> {numberInWords && <p>{numberInWords}</p>}</div>
             </div>
             {formData.offer && (
               <div className='flex items-center gap-2'>
+                 <div className='flex flex-col items-center'>
+                  <p>Discounted price</p>
+
+                  {formData.type === 'rent' && (
+                    <span className='text-xs'>(Rs / month)</span>
+                  )}
+                </div>
                 <input
                   type='number'
                   id='discountPrice'
@@ -329,16 +364,10 @@ export default function CreateListing() {
                   max='10000000000'
                   required
                   className='p-3 border border-gray-300 rounded-lg'
-                  onChange={handleChange}
+                  onChange={handleDiscountChange}
                   value={formData.discountPrice}
                 />
-                <div className='flex flex-col items-center'>
-                  <p>Discounted price</p>
-
-                  {formData.type === 'rent' && (
-                    <span className='text-xs'>(Rs / month)</span>
-                  )}
-                </div>
+                 <div className='px-4'> {discountInWords && <p>{discountInWords}</p>}</div>
               </div>
             )}
           </div>
@@ -369,7 +398,8 @@ export default function CreateListing() {
             </button>
           </div>
           <p className='text-red-700 text-sm'>
-            {imageUploadError && imageUploadError}
+       
+          {imageUploadError && imageUploadError}
           </p>
           {formData.imageUrls.length > 0 &&
             formData.imageUrls.map((url, index) => (

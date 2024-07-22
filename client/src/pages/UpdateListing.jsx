@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toWords } from 'number-to-words';
 import {
   getDownloadURL,
   getStorage,
@@ -24,12 +25,14 @@ export default function CreateListing() {
     type: 'rent',
     bedrooms: 1,
     bathrooms: 1,
-    regularPrice: 50,
+    regularPrice: '',
     discountPrice: 0,
     offer: false,
     parking: false,
     furnished: false,
   });
+  const [numberInWords, setNumberInWords] = useState('');
+  const [discountInWords, setDiscountInWords] = useState('');
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
@@ -138,6 +141,26 @@ export default function CreateListing() {
         ...formData,
         [e.target.id]: e.target.value,
       });
+    }
+  };
+  const handleNumberChange = (e) => {
+    const { value } = e.target;
+    setFormData({ ...formData, regularPrice: value});
+
+    if (value) {
+      setNumberInWords(toWords(value));
+    } else {
+      setNumberInWords('');
+    }
+  };
+  const handleDiscountChange = (e) => {
+    const { value } = e.target;
+    setFormData({ ...formData, discountPrice: value});
+
+    if (value) {
+      setDiscountInWords(toWords(value));
+    } else {
+      setDiscountInWords('');
     }
   };
 
@@ -309,6 +332,12 @@ export default function CreateListing() {
               <p>Baths</p>
             </div>
             <div className='flex items-center gap-2'>
+            <div className='flex flex-col items-center'>
+                <p>Regular price</p>
+                {formData.type === 'rent' && (
+                  <span className='text-xs'>(Rs / month)</span>
+                )}
+              </div>
               <input
                 type='number'
                 id='regularPrice'
@@ -316,18 +345,19 @@ export default function CreateListing() {
                 max='10000000'
                 required
                 className='p-3 border border-gray-300 rounded-lg'
-                onChange={handleChange}
+                onChange={handleNumberChange}
                 value={formData.regularPrice}
               />
-              <div className='flex flex-col items-center'>
-                <p>Regular price</p>
-                {formData.type === 'rent' && (
-                  <span className='text-xs'>(Rs / month)</span>
-                )}
-              </div>
+             <div>{numberInWords && <p>{numberInWords}</p>}</div> 
             </div>
             {formData.offer && (
               <div className='flex items-center gap-2'>
+               <div className='flex flex-col items-center'>
+                  <p>Discounted price</p>
+                  {formData.type === 'rent' && (
+                    <span className='text-xs'>(Rs / month)</span>
+                  )}
+                </div>
                 <input
                   type='number'
                   id='discountPrice'
@@ -335,15 +365,10 @@ export default function CreateListing() {
                   max='10000000'
                   required
                   className='p-3 border border-gray-300 rounded-lg'
-                  onChange={handleChange}
+                  onChange={handleDiscountChange}
                   value={formData.discountPrice}
                 />
-                <div className='flex flex-col items-center'>
-                  <p>Discounted price</p>
-                  {formData.type === 'rent' && (
-                    <span className='text-xs'>(Rs / month)</span>
-                  )}
-                </div>
+                <div>{discountInWords && <p>{discountInWords}</p>}</div>
               </div>
             )}
           </div>
