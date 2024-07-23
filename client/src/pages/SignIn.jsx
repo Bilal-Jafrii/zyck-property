@@ -12,7 +12,7 @@ import toast, { Toaster } from 'react-hot-toast';
 export default function SignIn() {
  
   const [formData, setFormData] = useState({});
-  const { loading, error } = useSelector((state) => state.user);
+  const {loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -40,8 +40,13 @@ export default function SignIn() {
       }
       dispatch(signInSuccess(data));
       
+      
       setTimeout(() => {
-        navigate('/')
+        if(data.isAdmin===true){
+          navigate('/dashboard')
+        }else{
+          navigate('/')
+        }
       }, 1500);
       toast.success("Sign In Successfully !")
     } catch (error) {

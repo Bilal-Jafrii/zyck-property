@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import ContactForm from './pages/ContactForm';
 import Terms from './pages/Terms';
 import Faqs from './pages/Faqs';
+import Dashboard from './pages/Dashboard';
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path='/profile' element={<Profile />} />
           <Route path='/create-listing' element={<CreateListing />} />
+          <Route path='/dashboard' element={<Dashboard />} />
           <Route
             path='/update-listing/:listingId'
             element={<UpdateListing />}
