@@ -9,6 +9,7 @@ import {
 import { app } from '../firebase';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -207,17 +208,22 @@ export default function CreateListing() {
         }),
       });
       const data = await res.json();
+      toast.success("Listing Upadated Successfully")
       setLoading(false);
       if (data.success === false) {
         setError(data.message);
       }
       navigate(`/listing/${data._id}`);
+     
     } catch (error) {
+      toast.error(error.message)
       setError(error.message);
       setLoading(false);
     }
   };
   return (
+    <>
+    <Toaster/>
     <main className='p-3 max-w-4xl mx-auto'>
       <h1 className='text-3xl font-semibold text-center my-7'>
         Update a Listing
@@ -453,6 +459,6 @@ export default function CreateListing() {
           {error && <p className='text-red-700 text-sm'>{error}</p>}
         </div>
       </form>
-    </main>
+    </main></>
   );
 }

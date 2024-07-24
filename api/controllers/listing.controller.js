@@ -1,4 +1,5 @@
 import Listing from '../models/listing.model.js';
+import User from '../models/user.model.js';
 import { errorHandler } from '../utils/error.js';
 
 export const createListing = async (req, res, next) => {
@@ -17,9 +18,9 @@ export const deleteListing = async (req, res, next) => {
     return next(errorHandler(404, 'Listing not found!'));
   }
 
-  if (req.user.id !== listing.userRef) {
-    return next(errorHandler(401, 'You can only delete your own listings!'));
-  }
+  // if (req.user.id !== listing.userRef) {
+  //   return next(errorHandler(401, 'You can only delete your own listings!'));
+  // }
 
   try {
     await Listing.findByIdAndDelete(req.params.id);
@@ -34,11 +35,14 @@ export const updateListing = async (req, res, next) => {
   if (!listing) {
     return next(errorHandler(404, 'Listing not found!'));
   }
-  if (req.user.id !== listing.userRef) {
-    return next(errorHandler(401, 'You can only update your own listings!'));
-  }
-
+  
+  // if (req.user.id !== listing.userRef) {
+  //   return next(errorHandler(401, 'You can only update your own listings!'));
+  // }
   try {
+    // if ( ) {
+    //   return next (errorHandler(401,"Unauthorized to update this"))
+    // }
     const updatedListing = await Listing.findByIdAndUpdate(
       req.params.id,
       req.body,

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-import ListingItem from './ListingItem';
+
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import DashListingItem from './DashListingItem';
 
 
 export default function DashPosts() {
@@ -66,12 +67,12 @@ export default function DashPosts() {
         <TabPanel value="1"> {offerListings && offerListings.length > 0 && (
                     <div className=''>
                         <div className='my-3'>
-                            <h2 className='text-2xl font-semibold lg:font-bold text-gradient'>Recent offers</h2>
+                            <h2 className='text-2xl font-semibold lg:font-bold text-gradient'>Recent offers <span >({offerListings.length})</span></h2>
                           
                         </div>
                         <div className='flex flex-wrap gap-4'>
                             {offerListings.map((listing) => (
-                                <ListingItem listing={listing} key={listing._id} />
+                                <DashListingItem listing={listing} key={listing._id} />
                             ))}
                         </div>
                     </div>
@@ -79,12 +80,12 @@ export default function DashPosts() {
         <TabPanel value="2">  {rentListings && rentListings.length > 0 && (
                     <div className=''>
                         <div className='my-3'>
-                            <h2 className='text-2xl font-semibold lg:font-bold text-gradient'>Recent places for rent</h2>
+                            <h2 className='text-2xl font-semibold lg:font-bold text-gradient'>Recent places for rent ({rentListings.length})</h2>
                            
                         </div>
                         <div className='flex flex-wrap gap-4'>
                             {rentListings.map((listing) => (
-                                <ListingItem listing={listing} key={listing._id} />
+                                <DashListingItem listing={listing} key={listing._id} />
                             ))}
                         </div>
                     </div>
@@ -92,12 +93,12 @@ export default function DashPosts() {
         <TabPanel value="3"> {saleListings && saleListings.length > 0 && (
                     <div className=''>
                         <div className='my-3'>
-                            <h2 className='text-2xl font-semibold lg:font-bold text-gradient'>Recent places for sale</h2>
+                            <h2 className='text-2xl font-semibold lg:font-bold text-gradient'>Recent places for sale ({saleListings.length})</h2>
                           
                         </div>
                         <div className='flex flex-wrap gap-4'>
                             {saleListings.map((listing) => (
-                                <ListingItem listing={listing} key={listing._id} />
+                                <DashListingItem listing={listing} key={listing._id} />
                             ))}
                         </div>
                     </div>
