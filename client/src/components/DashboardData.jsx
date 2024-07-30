@@ -26,7 +26,7 @@ export default function DashboardData() {
             {/* for posts */}
    {tab === 'posts' && <DashPosts/>}
    {/* for users */}
-   {tab === 'users' && <DashUsers/>}
+   {tab === 'users' && <div ><DashUsers/></div>}
     {/* for emails */}
     {tab === 'emails' && <DashEmails/>}
 </div>

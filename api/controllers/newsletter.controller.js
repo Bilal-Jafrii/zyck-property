@@ -39,4 +39,13 @@ const newsletter = async (req, res,next) => {
  
   }
 };
-export  {newsletter}
+const getAllEmails = async(req,res,next)=>{
+try {
+  const emails = await Newsletter.find({})
+  return res.status(200).json(emails)
+} catch (error) {
+  next(error)
+}
+}
+export  {newsletter,getAllEmails}
+

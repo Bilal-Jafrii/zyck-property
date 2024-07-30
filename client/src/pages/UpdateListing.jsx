@@ -459,6 +459,7 @@ export default function CreateListing() {
           {error && <p className='text-red-700 text-sm'>{error}</p>}
         </div>
       </form>
-    </main></>
+    </main>
+    </>
   );
 }

@@ -20,6 +20,7 @@ export default function Header() {
   };
 
   const { currentUser } = useSelector((state) => state.user);
+  
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const handleSubmit = (e) => {
@@ -64,6 +65,11 @@ export default function Header() {
           </button>
         </form>
         <ul className='flex gap-4 items-center'>
+        {currentUser?.email ==="infozyck@gmail.com" ?   <Link to={'/dashboard'}>
+            <li className='hidden sm:inline hover:gradient-text hover:underline text-white'>
+             Dashboard
+            </li>
+          </Link> : ''}
           <Link to={'/search?type=sale'}>
             <li className='hidden sm:inline hover:gradient-text hover:underline text-white'>
              Buy
@@ -140,7 +146,11 @@ export default function Header() {
 
                           <ul  className="px-6 mt-6 space-y-4 font-sans font-semibold text-black text-md">
                            
-
+                          {currentUser?.email ==="infozyck@gmail.com" ?   <Link onClick={() => setOpen(false)} to={'/dashboard'}>
+            <li className='text-slate-700 hover:underline hover:text-green-500'>
+             Dashboard
+            </li>
+          </Link> : ''}
                          
           <Link to={'/search?type=sale'} onClick={() => setOpen(false)}>
             <li className=' text-slate-700 hover:underline hover:text-green-500'>
